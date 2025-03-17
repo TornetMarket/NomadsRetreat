@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="nr.png" type="image/png">
+  <title>Nomads Retreat - Welcome</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="welcome-container">
+    <img src="travel.png" alt="Travel Background" class="bg-image" />
+    <nav class="navbar">
+      <div class="nav-logo">
+        <img src="nr.png" alt="Nomads Retreat Logo" class="nav-logo-img" />
+        Nomads Retreat
+      </div>
+      <ul class="nav-links">
+        <li><a href="welcome.html">Home</a></li>
+        <li><a href="#">Nearby</a></li>
+        <li><a href="#">Connect</a></li>
+        <li><a href="#">Treasures</a></li>
+        <li><a href="#">[Offline]</a></li>
+      </ul>
+      <button class="logout-btn" onclick="window.location.href='index.html';">Logout</button>
+    </nav>
+    <!-- About Panel -->
+    <div class="about-panel">
+        <h1 class="fade-in-text">Nomads Retreat</h1>
+        <p class="tagline fade-in-text-reverse">Where Adventure Meets Curiosity</p>
+      <p>
+        Nomads Retreat is your personalized travel platform, designed to help you discover unique destinations, local experiences, and sustainable adventures. Whether you're planning a spontaneous weekend getaway or an extended retreat, we offer tailored recommendations based on your ideal travel range and preferred temperature, all starting from your location. Let us provide the insights and inspiration to make your journey unforgettable.
+      </p>
+    </div>
+    <!-- Destination Filter Panel -->
+    <div class="welcome-panel">
+      <section class="destination-filters">
+        <div class="starting-point">
+          <label for="start-location">Enter your starting point:</label>
+          <input type="text" id="start-location" placeholder="San Jose, California" />
+        </div>
+        <div class="filters">
+          <div>
+            <label for="distance">Distance from starting point:</label>
+            <input type="text" id="distance" placeholder="e.g., 50 miles or 1.5 hours" />
+          </div>
+          <div>
+            <label for="temperature">Temperature Range (°F):</label>
+            <input type="text" id="temperature" placeholder="e.g., 67-78" />
+          </div>
+        </div>
+        <button id="filter-btn">Search Ideal Destinations</button>
+        <div id="results">
+          <!-- Results will be displayed here -->
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <footer>
+    <p><a href="https://tornetmarket.github.io/TOR/" target="_blank" rel="noopener noreferrer">Developed By Richie</a></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

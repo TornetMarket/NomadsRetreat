@@ -1,0 +1,518 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  
+  html, body {
+    height: 100%;
+    background-image: url('travel.png'); /* Replace with the correct path */
+    background-size: cover; /* Ensures the image covers the entire viewport */
+    background-attachment: fixed; /* Keeps the background fixed during scrolling */
+    background-position: center center; /* Centers the background image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    overflow-x: hidden; /* Prevents horizontal scrolling */
+
+  }
+  
+  /* Background Image */
+  .bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+  
+/* ----- Index Page Styles ----- */
+.login-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  /* Centering login panel */
+  .login-panel {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    width: 300px;
+  }
+  
+  /* Sign-in text */
+  .signin-text {
+    color: white;
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+  
+  /* Styling inputs */
+  input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  /* Login options container */
+  .login-options {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically for 'Forgot Password' */
+    align-items: center; /* Center align the items */
+    font-size: 14px;
+    margin: 10px 0;
+  }
+  
+  /* Remember Me checkbox (aligned to the left) */
+  .login-options label {
+    display: inline-flex; /* Use inline-flex to ensure it stays in one line */
+    align-items: center;
+    color: white;
+    margin-bottom: 0; /* Remove space between Remember Me and Forgot Password */
+  }
+  
+  .login-options input[type="checkbox"] {
+    margin-right: 5px;
+  }
+  
+  /* Forgot Password link (centered under the checkbox) */
+  .forgot-password {
+    color: #1e90ff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 5px; /* Add a small margin to space it from the Remember Me */
+    display: block; /* Center the text */
+    text-align: center;
+  }
+  
+  .forgot-password:hover {
+    text-decoration: underline;
+  }
+  
+  /* Sign-in button */
+  button {
+    background: #ff6600;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background: #e65c00;
+  }
+  
+  .login-panel {
+    background: rgba(44, 62, 80, 0.8); /* Dark translucent overlay */
+    backdrop-filter: blur(8px);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    max-width: 320px;
+    width: 90%;
+    color: #fff;
+  }
+  
+  .login-panel h1 {
+    margin-bottom: 1.5rem;
+    color: #3498db; /* Blue heading */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  }
+  
+  .login-panel form input {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: none;
+    border-radius: 6px;
+  }
+  
+  .login-panel form button {
+    width: 100%;
+    padding: 0.8rem;
+    background: #e67e22; /* Orange call-to-action */
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .login-panel form button:hover {
+    background: #d35400;
+  }
+  
+  
+/* ----- Navigation Bar (Welcome Page) ----- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1000px;
+    margin: 20px auto 0 auto;
+    padding: 1rem 2rem;
+    background: rgba(44, 62, 80, 0.8);
+    backdrop-filter: blur(6px);
+    border-radius: 8px;
+    color: #fff;
+    flex-direction: row; /* Keep this as a row by default */
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #3498db;
+}
+
+.nav-logo-img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin-left: auto;  /* This moves the links to the left */
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #e67e22;
+}
+
+/* Nav Bar Logout Button */
+.logout-btn {
+    background: none;
+    color: #fff;
+    border: none;
+    font-size: 1.1rem;
+    text-transform: uppercase; /* Makes the text all caps */
+    font-weight: bold; /* Bold to make it stand out more */
+    cursor: pointer;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    padding: 0.5rem 1rem; /* Reduced horizontal padding */
+    width: auto; /* Allow width to auto-adjust */
+    border-radius: 6px; /* Rounded corners */
+    margin-left: 20px; /* Optional: space between the logout button and other nav items */
+}
+
+.logout-btn:hover {
+    color: #e67e22; /* Highlight color when hovering */
+    background-color: rgba(44, 62, 80, 0.6); /* Slight background on hover */
+}
+
+/* Keep the orange color always highlighted */
+.logout-btn {
+    color: #e67e22;
+    background: none;
+    border: none;
+    padding: 0.5rem 1rem; /* Adjusted padding to make the button smaller */
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+/* Responsive Nav Bar for Mobile Devices */
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column; /* Stack navbar content vertically */
+        padding: 1rem;
+    }
+
+    .nav-logo {
+        font-size: 1.5rem;
+        margin-bottom: 1rem; /* Spacing between logo and nav links */
+    }
+
+    .nav-links {
+        flex-direction: row; /* Make the nav links horizontal */
+        gap: 1rem;
+        margin-top: 0;  /* Remove margin-top */
+        justify-content: center; /* Center nav links */
+        width: 100%; /* Ensure the nav list takes full width */
+        text-align: center; /* Center the nav list */
+    }
+
+    .nav-links a {
+        font-size: 1.1rem;
+    }
+
+    .logout-btn {
+        margin-top: 1rem; /* Center logout button below nav links */
+        width: 100%;
+        text-align: center;
+    }
+}
+
+
+  /* Style for the settings icon button */
+.settings-btn {
+    position: absolute;
+    top: 21px;
+    left: 15px;
+    width: 40px;  /* Set a fixed width */
+    height: 40px; /* Set a fixed height */
+    font-size: 24px;
+    background: transparent;
+    border: 2px solid #fff; /* Add a border for clarity */
+    color: #fff;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    display: flex; /* Align icon in the center */
+    justify-content: center; /* Center icon horizontally */
+    align-items: center; /* Center icon vertically */
+    border-radius: 8px; /* Optional: rounded corners */
+}
+
+.settings-btn:hover {
+    color: #64ffda; /* Hover effect */
+}
+
+  
+  
+  
+  
+  /* ----- Welcome Page Styles ----- */
+  .welcome-container {
+    position: relative;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  
+  /* About Panel */
+  .about-panel {
+    background: rgba(44, 62, 80, 0.8);
+    backdrop-filter: blur(8px);
+    padding: 2rem;
+    border-radius: 12px;
+    margin: 80px auto 20px auto; /* Reduced bottom margin to bring panels closer */
+    max-width: 800px;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    color: #fff;
+  }
+  
+  .about-panel h1 {
+    font-size: 2rem;  /* Reduced font size */
+    margin-bottom: 0.5rem;
+    color: #3498db;  /* Changed to blue */
+  }
+  
+  .about-panel .tagline {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #3498db;  /* Blue to match the titles */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  }
+  
+  .about-panel p {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #ccc;
+  }
+  
+  /* Destination Filter Panel (Welcome Panel) */
+  .welcome-panel {
+    display: none;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    background: rgba(44, 62, 80, 0.8);
+    backdrop-filter: blur(8px);
+    padding: 2rem;
+    border-radius: 12px;
+    margin: 20px auto 20px auto;  /* Reduced top margin for closer spacing */
+    max-width: 800px;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    color: #fff;
+  }
+  
+  .welcome-panel h1 {
+    font-size: 2rem;  /* Reduced font size */
+    margin-bottom: 1rem;
+    color: #3498db;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  }
+  
+  /* Destination Filters Section */
+  .destination-filters {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background: rgba(44, 62, 80, 0.9);
+    border-radius: 12px;
+    text-align: left;
+    color: #fff;
+  }
+  
+  .destination-filters h2 {
+    margin-bottom: 1rem;
+    color: #3498db;
+  }
+  
+  .destination-filters label {
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  .destination-filters p {
+    margin-bottom: 1rem;
+    color: #ccc;
+  }
+  
+  .destination-filters .starting-point {
+    margin-bottom: 1rem;
+  }
+  
+  .destination-filters .starting-point input {
+    width: 100%;
+    padding: 0.6rem;
+    margin-top: 0.5rem;
+    border: none;
+    border-radius: 6px;
+  }
+  
+  .filters {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .filters div {
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem;
+  }
+  
+  .filters input {
+    padding: 0.6rem;
+    margin-top: 0.5rem;
+    border: none;
+    border-radius: 6px;
+    width: 200px;
+  }
+  
+  #filter-btn {
+    padding: 0.8rem 1.5rem;
+    background: #e67e22;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+  }
+  
+  #filter-btn:hover {
+    background: #d35400;
+  }
+  
+  #results {
+    margin-top: 1rem;
+    text-align: left;
+    padding: 1rem;
+    background: rgba(44, 62, 80, 0.8);
+    border-radius: 6px;
+    color: #fff;
+  }
+  
+/* Footer styles */
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background-color: #2c3e50;
+    color: #fff;
+    padding: 10px;
+    font-size: 1rem;
+  }
+  
+  footer a {
+    color: #fff;
+    text-decoration: none; /* Remove underline */
+  }
+  
+  footer a:hover {
+    color: #fff; /* Keep the color white on hover */
+    text-decoration: none; /* Ensure no underline on hover */
+  }
+
+  /* Apply the fade-in and swipe-in animation from the left for "Nomads Retreat" */
+.fade-in-text {
+    opacity: 0;
+    transform: translateX(-100%); /* Start from left off-screen */
+    animation: fadeInSwipe 3s ease-out forwards; /* 3 seconds animation with ease-out effect */
+  }
+  
+  /* Apply the fade-in and swipe-in animation from the right for "Where Adventure Meets Curiosity" */
+  .fade-in-text-reverse {
+    opacity: 0;
+    transform: translateX(100%); /* Start from right off-screen */
+    animation: fadeInSwipeReverse 3s ease-out forwards; /* 3 seconds animation with ease-out effect */
+  }
+  
+  /* Tagline styling */
+  .tagline {
+    color: #64ffda; /* Keep the cyan color for the tagline */
+    font-size: 1.5em; /* Adjust font size if needed */
+  }
+  
+  @keyframes fadeInSwipe {
+    0% {
+      opacity: 0;
+      transform: translateX(-100%); /* Start off-screen to the left */
+    }
+    50% {
+      opacity: 0.5;
+      transform: translateX(10%); /* A little to the right */
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0); /* End in the correct position */
+    }
+  }
+  
+  @keyframes fadeInSwipeReverse {
+    0% {
+      opacity: 0;
+      transform: translateX(100%); /* Start off-screen to the right */
+    }
+    50% {
+      opacity: 0.5;
+      transform: translateX(-10%); /* A little to the left */
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0); /* End in the correct position */
+    }
+  }
+  
