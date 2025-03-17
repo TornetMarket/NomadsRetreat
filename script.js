@@ -6,14 +6,17 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
-        if (email === "nomad@gmail.com" && password === "Guest!") {
+        
+        // Check for valid credentials
+        if ((email === "nomad@gmail.com" && password === "Guest!") || 
+            (email === "admin@nomad.com" && password === "Admin@!")) {
           window.location.href = "welcome.html";
         } else {
           alert("Invalid credentials. Please try again.");
         }
       });
     }
-  
+
     // --- Filter Button Functionality (for welcome.html) ---
     const filterBtn = document.getElementById("filter-btn");
     if (filterBtn) {
@@ -29,9 +32,9 @@ document.addEventListener("DOMContentLoaded", function () {
           "<p>(Destination results would be displayed here...)</p>";
       });
     }
-  });
+});
 
-  document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
       const welcomePanel = document.querySelector(".welcome-panel");
       if (welcomePanel) {
@@ -41,10 +44,4 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 50); // Slight delay to ensure display is applied
       }
     }, 4000); // 4-second delay before showing the panel
-  });
-  
-
-  
-
-
-  
+});
