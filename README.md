@@ -2,7 +2,7 @@
 
 **Nomads Retreat** is a travel companion app designed to help you explore the world based on your preferences. It provides features like personalized destination filters, local experiences, offline access, and a vibrant social community to connect with fellow travelers.
 
-![Nomads Retreat Logo](images/travel.png)
+![Nomads Retreat Logo](travel.png)
 
 ## Features:
 - **Personalized Destination Filters**: Search destinations based on weather, distance, and temperature preferences.
