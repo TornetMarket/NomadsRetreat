@@ -17,7 +17,7 @@
 To get started with **Nomads Retreat**, clone this repository and open `index.html` in your browser:
 
 ```website
-[https://website.com](https://tornetmarket.github.io/NomadsRetreat/)
+https://website.com](https://tornetmarket.github.io/NomadsRetreat/
 
 Developed By Richie
 Developed By UnknownBlackHat
