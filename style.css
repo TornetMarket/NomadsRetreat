@@ -515,4 +515,84 @@ footer {
       transform: translateX(0); /* End in the correct position */
     }
   }
+
+  /* Content Panel for Nearby Services */
+.content-panel {
+  background: rgba(44, 62, 80, 0.8);
+  backdrop-filter: blur(8px);
+  padding: 2rem;
+  border-radius: 12px;
+  margin: 20px auto;
+  max-width: 800px;
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  color: #fff;
+}
+
+.service-image {
+  max-width: 100%;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.service-image:hover {
+  transform: scale(1.05);
+}
+
+.service-description {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #ccc;
+}
+
+/* Content Panel for Nearby Services */
+.content-panel {
+  display: none;           /* Hidden initially */
+  opacity: 0;              /* Start transparent */
+  transition: opacity 1s ease-in-out; /* Smooth fade-in */
+  background: rgba(44, 62, 80, 0.8);
+  backdrop-filter: blur(8px);
+  padding: 2rem;
+  border-radius: 12px;
+  margin: 20px auto;
+  max-width: 800px;
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  color: #fff;
+}
+
+/* Panel Title for Content Panel */
+.panel-title {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #3498db; /* Same blue as in other headings */
+}
+
+/* Service image hover effect */
+.service-image {
+  max-width: 100%;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.service-image:hover {
+  transform: scale(1.05);
+}
+
+/* Service description */
+.service-description {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #ccc;
+}
+
+img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover; /* Ensures the image maintains aspect ratio without distortion */
+  border-radius: 10px; /* Optional: Gives a rounded look */
+}
+
   
