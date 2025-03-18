@@ -35,13 +35,49 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+  setTimeout(() => {
+    const welcomePanel = document.querySelector(".welcome-panel");
+    if (welcomePanel) {
+      welcomePanel.style.display = "block"; // Show the panel
+      setTimeout(() => {
+        welcomePanel.style.opacity = "2"; // Fade in smoothly
+      }, 50); // Slight delay to ensure display is applied
+    }
+  }, 4000); // 4-second delay before showing the panel
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const contentPanels = document.querySelectorAll(".content-panel");
+  contentPanels.forEach((panel, index) => {
     setTimeout(() => {
-      const welcomePanel = document.querySelector(".welcome-panel");
-      if (welcomePanel) {
-        welcomePanel.style.display = "block"; // Show the panel
-        setTimeout(() => {
-          welcomePanel.style.opacity = "2"; // Fade in smoothly
-        }, 50); // Slight delay to ensure display is applied
-      }
-    }, 4000); // 4-second delay before showing the panel
+      panel.style.display = "block"; // Show the panel
+      setTimeout(() => {
+        panel.style.opacity = "1"; // Fade in smoothly
+      }, 50);
+    }, 2400 + index * 350); // Each panel appears 350ms after the previous one, starting at 2400ms
+  });
+});
+
+document.getElementById("rentalsLink").addEventListener("click", function(e) {
+  e.preventDefault();
+  var queries = ["Transportation Rentals", "Bike Rentals"];
+  var randomQuery = queries[Math.floor(Math.random() * queries.length)];
+  var mapsUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(randomQuery);
+  window.open(mapsUrl, "_blank");
+});
+
+document.getElementById("lodgingLink").addEventListener("click", function(e) {
+  e.preventDefault();
+  var queries = ["Hotels", "Motels", "Hostels", "Lodging"];
+  var randomQuery = queries[Math.floor(Math.random() * queries.length)];
+  var mapsUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(randomQuery);
+  window.open(mapsUrl, "_blank");
+});
+
+document.getElementById("poiLink").addEventListener("click", function(e) {
+  e.preventDefault();
+  var queries = ["Tourist Attractions", "Scenic Views", "Landmarks", "Must-See Places"];
+  var randomQuery = queries[Math.floor(Math.random() * queries.length)];
+  var mapsUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(randomQuery);
+  window.open(mapsUrl, "_blank");
 });
