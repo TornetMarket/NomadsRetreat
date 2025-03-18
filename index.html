@@ -27,8 +27,30 @@
   </div>
 
   <footer>
-    <p><a href="https://tornetmarket.github.io/TOR/" target="_blank" rel="noopener noreferrer">Developed By Richie</a></p>
+    <p>
+      <a href="https://tornetmarket.github.io/TOR/" target="_blank" rel="noopener noreferrer">
+        Developed By Richie
+      </a>
+      | 
+      <a href="#" id="contactLink" class="contact-highlight">Contact</a>
+    </p>
   </footer>
+
+  <!-- Contact Form Modal (Hidden by default) -->
+  <div id="contactModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Contact Form</h2>
+      <form id="contactForm">
+        <input type="text" id="fullname" placeholder="Full Name" required />
+        <input type="email" id="emailAddress" placeholder="Email Address" required />
+        <textarea id="message" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+      <p id="successMessage" style="display: none; color: green;"></p>
+    </div>
+  </div>
+  
 
   <script src="script.js"></script>
 </body>
