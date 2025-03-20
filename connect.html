@@ -36,18 +36,41 @@
       </p>
     </div>
     
-    <!-- Local Meet Ups Panel -->
     <div class="content-panel">
-      <h1 style="color: #3498db;">Local Meet Ups</h1>
-      <a href="www.example.com" target="_blank">
-        <img src="https://images.unsplash.com/photo-1627551885247-f9301e1d6101?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTB8fGhpa2luZ3xlbnwwfHwwfHx8MA%3D%3D" 
-             alt="Meet the locals" 
-             style="width:100%; max-width:600px; display:block; margin:auto; border-radius:10px; cursor:pointer;">
-      </a>
-      <p class="service-description">
-        Discover and join local gatherings that bring travelers and locals together for unique, memorable experiences.
-      </p>
+        <h2 class="panel-title">Local Meet Ups</h2>
+        <a id="meetupLink" href="javascript:void(0)" target="_blank">
+          <img src="https://images.unsplash.com/photo-1627551885247-f9301e1d6101?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTB8fGhpa2luZ3xlbnwwfHwwfHx8MA%3D%3D" 
+               alt="Meet the locals" 
+               style="width:100%; max-width:600px; display:block; margin:auto; border-radius:10px; cursor:pointer;">
+        </a>
+        <p class="service-description">
+          Discover and join local gatherings that bring travelers and locals together for unique, memorable experiences.
+        </p>
+      </div>
+           
+
+    <!-- Nomad Nexus Chat Panel -->
+    <div class="content-panel">
+        <h2 class="panel-title">Nomad Nexus</h2>
+        <p class="service-description">
+        Connect with fellow travelers in real-time. Share stories, ask for advice, or find travel companions on your next adventure.
+        </p>
+    
+        <!-- Chat Container -->
+        <div class="chat-container">
+        <div id="chatbox" class="chatbox">
+            <p class="chat-placeholder">Welcome to Nomad Nexus! Say hello to start the conversation.</p>
+        </div>
+        
+        <!-- Input Section -->
+        <div class="chat-input-section">
+            <input type="text" id="chatInput" placeholder="Type your message here..." />
+            <button id="sendButton">Send</button>
+        </div>
+        </div>
     </div>
+      
+      
   </div>
 
   <footer>
