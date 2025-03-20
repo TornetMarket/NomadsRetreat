@@ -8,9 +8,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const password = document.getElementById("password").value;
       // Check for valid credentials
       if (
-        (email === "nomad@gmail.com" && password === "Guest!") ||
-        (email === "admin@nomad.com" && password === "Admin@!")
+        (email === "nomad@gmail.com" && password === "Dev@!") ||
+        (email === "admin@nomad.com" && password === "Admin@!") ||
+        (email === "richie.dev@nomad" && password === "dev") ||
+        (email === "rudy042208@yahoo.com" && password === "FrancoAdmin!") ||
+        (email === "BetaTest@gmail.com" && password === "test!")
       ) {
+        // Store the username in localStorage
+        localStorage.setItem('username', email.split('@')[0]);  // Save just the part before @
         window.location.href = "welcome.html";
       } else {
         alert("Invalid credentials. Please try again.");
@@ -18,148 +23,60 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-// --- Filter Button Functionality (for welcome.html) ---
-const filterBtn = document.getElementById("filter-btn");
+// Assume you have a function that gets the user's latitude and longitude
+async function getUserCoordinates(location) {
+  const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(location)}&key=AIzaSyBuNmH1PIyy6_mq-AgEt1LNc_kl5NFF2Nc`;
+  const response = await fetch(geocodeUrl);
+  const data = await response.json();
+  if (data.status === "OK") {
+    return data.results[0].geometry.location;
+  } else {
+    throw new Error("Geocoding failed: " + data.status);
+  }
+}
 
+const filterBtn = document.getElementById("filter-btn");
 if (filterBtn) {
-  filterBtn.addEventListener("click", () => {
+  filterBtn.addEventListener("click", async () => {
     const startLocation = document.getElementById("start-location").value.trim();
     const distanceInput = document.getElementById("distance").value.trim();
     const temperatureInput = document.getElementById("temperature").value.trim();
     const resultsDiv = document.getElementById("results");
 
-    // --- Validate Inputs ---
     if (!startLocation || !distanceInput) {
       resultsDiv.innerHTML = "<p>Please enter a valid start location and distance.</p>";
       return;
     }
 
-// Expanded sample destination data
-const destinations = [
-  // California & Nearby (short distance)
-  { name: "San Francisco, CA", distanceMiles: 50, averageTemp: 65 },
-  { name: "Sacramento, CA", distanceMiles: 100, averageTemp: 68 },
-  { name: "Los Angeles, CA", distanceMiles: 340, averageTemp: 75 },
-  { name: "San Diego, CA", distanceMiles: 400, averageTemp: 70 },
-  { name: "Lake Tahoe, CA/NV", distanceMiles: 215, averageTemp: 45 },
-  { name: "Reno, NV", distanceMiles: 290, averageTemp: 50 },
-  { name: "Yosemite National Park, CA", distanceMiles: 220, averageTemp: 50 },
-  { name: "Santa Barbara, CA", distanceMiles: 330, averageTemp: 65 },
+    // Show loading message
+    resultsDiv.innerHTML = "<p>Locating ideal Locations...</p>";
 
-  // Popular Hiking Destinations
-  { name: "Zion National Park, UT", distanceMiles: 620, averageTemp: 60 },
-  { name: "Grand Canyon, AZ", distanceMiles: 650, averageTemp: 50 },
-  { name: "Banff National Park, Canada", distanceMiles: 1300, averageTemp: 45 },
-  { name: "Torres del Paine, Chile", distanceMiles: 6700, averageTemp: 40 },
-  { name: "Patagonia, Argentina", distanceMiles: 7000, averageTemp: 50 },
-  { name: "Mount Kilimanjaro, Tanzania", distanceMiles: 8800, averageTemp: 45 },
+    // Get user coordinates
+    let userCoords;
+    try {
+      userCoords = await getUserCoordinates(startLocation);
+    } catch (error) {
+      resultsDiv.innerHTML = `<p>Error geocoding location: ${error.message}</p>`;
+      return;
+    }
 
-  // Beach & Ocean Activities
-  { name: "Maui, HI", distanceMiles: 2400, averageTemp: 80 },
-  { name: "Phuket, Thailand", distanceMiles: 8500, averageTemp: 85 },
-  { name: "Bora Bora, French Polynesia", distanceMiles: 4800, averageTemp: 80 },
-  { name: "Maldives, South Asia", distanceMiles: 9300, averageTemp: 85 },
-  { name: "Gold Coast, Australia", distanceMiles: 8500, averageTemp: 75 },
-  { name: "Seychelles, Africa", distanceMiles: 9200, averageTemp: 85 },
-
-  // Resort Destinations
-  { name: "Malibu, CA", distanceMiles: 350, averageTemp: 70 },
-  { name: "Palm Springs, CA", distanceMiles: 430, averageTemp: 80 },
-  { name: "Whistler, Canada", distanceMiles: 900, averageTemp: 25 },
-  { name: "Cabo San Lucas, Mexico", distanceMiles: 1000, averageTemp: 80 },
-  { name: "Montego Bay, Jamaica", distanceMiles: 3200, averageTemp: 85 },
-  { name: "Gstaad, Switzerland", distanceMiles: 6000, averageTemp: 45 },
-
-  // Scenic Destinations
-  { name: "Santorini, Greece", distanceMiles: 6500, averageTemp: 75 },
-  { name: "Amalfi Coast, Italy", distanceMiles: 5600, averageTemp: 70 },
-  { name: "Cinque Terre, Italy", distanceMiles: 5600, averageTemp: 70 },
-  { name: "Big Sur, CA", distanceMiles: 350, averageTemp: 60 },
-  { name: "Iceland's Golden Circle", distanceMiles: 5000, averageTemp: 35 },
-  { name: "Plitvice Lakes, Croatia", distanceMiles: 6000, averageTemp: 60 },
-  { name: "Geirangerfjord, Norway", distanceMiles: 5400, averageTemp: 40 },
-  { name: "Milford Sound, New Zealand", distanceMiles: 7800, averageTemp: 55 },
-  
-  // Popular Tourist & Major Cities
-  { name: "Las Vegas, NV", distanceMiles: 300, averageTemp: 85 },
-  { name: "Phoenix, AZ", distanceMiles: 750, averageTemp: 90 },
-  { name: "Denver, CO", distanceMiles: 850, averageTemp: 55 },
-  { name: "Salt Lake City, UT", distanceMiles: 700, averageTemp: 50 },
-  { name: "Seattle, WA", distanceMiles: 750, averageTemp: 55 },
-  { name: "Portland, OR", distanceMiles: 635, averageTemp: 60 },
-  { name: "Chicago, IL", distanceMiles: 2000, averageTemp: 50 },
-  { name: "Boston, MA", distanceMiles: 2600, averageTemp: 45 },
-  { name: "New York City, NY", distanceMiles: 2600, averageTemp: 55 },
-  { name: "Washington, DC", distanceMiles: 2500, averageTemp: 60 },
-  { name: "Nashville, TN", distanceMiles: 1700, averageTemp: 70 },
-  { name: "Miami, FL", distanceMiles: 3000, averageTemp: 80 },
-  { name: "Orlando, FL", distanceMiles: 2900, averageTemp: 75 },
-  { name: "Honolulu, HI", distanceMiles: 2400, averageTemp: 80 },
-  { name: "Austin, TX", distanceMiles: 1600, averageTemp: 70 },
-  { name: "New Orleans, LA", distanceMiles: 1900, averageTemp: 75 },
-
-  // US Winter/Cold Destinations
-  { name: "Anchorage, AK", distanceMiles: 2500, averageTemp: 30 },
-  { name: "Vermont, USA", distanceMiles: 2800, averageTemp: 25 },
-  { name: "Lake Placid, NY", distanceMiles: 2700, averageTemp: 28 },
-  { name: "Jackson Hole, WY", distanceMiles: 900, averageTemp: 20 },
-
-  // International Destinations
-  { name: "London, UK", distanceMiles: 5800, averageTemp: 55 },
-  { name: "Paris, France", distanceMiles: 5700, averageTemp: 60 },
-  { name: "Amsterdam, Netherlands", distanceMiles: 5700, averageTemp: 55 },
-  { name: "Tokyo, Japan", distanceMiles: 5000, averageTemp: 65 },
-  { name: "Sydney, Australia", distanceMiles: 8000, averageTemp: 75 },
-  { name: "Rio de Janeiro, Brazil", distanceMiles: 6000, averageTemp: 80 },
-  { name: "Dubai, UAE", distanceMiles: 8000, averageTemp: 95 },
-  { name: "Cape Town, South Africa", distanceMiles: 11000, averageTemp: 70 },
-  { name: "Moscow, Russia", distanceMiles: 6500, averageTemp: 30 },
-  { name: "Reykjavik, Iceland", distanceMiles: 5000, averageTemp: 35 },
-  { name: "Zurich, Switzerland", distanceMiles: 6000, averageTemp: 45 },
-  { name: "Munich, Germany", distanceMiles: 5800, averageTemp: 50 },
-  { name: "Rome, Italy", distanceMiles: 5600, averageTemp: 65 },
-  { name: "Barcelona, Spain", distanceMiles: 5600, averageTemp: 70 },
-  { name: "Mexico City, Mexico", distanceMiles: 1700, averageTemp: 70 },
-  { name: "Cancun, Mexico", distanceMiles: 2300, averageTemp: 80 },
-  { name: "San Juan, Puerto Rico", distanceMiles: 2500, averageTemp: 85 },
-  { name: "Kyoto, Japan", distanceMiles: 5100, averageTemp: 60 },
-  { name: "Bangkok, Thailand", distanceMiles: 8500, averageTemp: 90 },
-  { name: "Bali, Indonesia", distanceMiles: 9000, averageTemp: 85 },
-  { name: "Istanbul, Turkey", distanceMiles: 6000, averageTemp: 60 },
-  { name: "Prague, Czech Republic", distanceMiles: 5900, averageTemp: 50 },
-  { name: "Havana, Cuba", distanceMiles: 2300, averageTemp: 80 },
-  { name: "Toronto, Canada", distanceMiles: 2400, averageTemp: 45 },
-  { name: "Buenos Aires, Argentina", distanceMiles: 6200, averageTemp: 65 },
-  { name: "Dublin, Ireland", distanceMiles: 5400, averageTemp: 50 },
-  { name: "Victoria Falls, Zimbabwe", distanceMiles: 8400, averageTemp: 75 },
-  { name: "Queenstown, New Zealand", distanceMiles: 7800, averageTemp: 55 },
-  { name: "Galapagos Islands, Ecuador", distanceMiles: 3500, averageTemp: 75 },
-];
-
-    // --- Distance Input Processing ---
+    // Process distance input (convert hours to miles if necessary)
     let maxDistance = Infinity;
     const distanceRegex = /([\d.]+)/;
     const distanceMatch = distanceInput.match(distanceRegex);
     if (distanceMatch) {
       const value = parseFloat(distanceMatch[1]);
-
       if (distanceInput.toLowerCase().includes("hour")) {
-        // Convert hours to miles based on estimated speeds
-        if (value <= 2) {
-          maxDistance = value * 30; // Slow travel (Mountain roads, scenic areas)
-        } else if (value <= 4) {
-          maxDistance = value * 45; // Moderate travel (City + Rural mix)
-        } else {
-          maxDistance = value * 65; // Fast travel (Highways)
-        }
+        if (value <= 2) maxDistance = value * 50;
+        else if (value <= 4) maxDistance = value * 60;
+        else maxDistance = value * 70;
       } else {
-        maxDistance = value; // Assume input is already in miles
+        maxDistance = value;
       }
     }
 
-    // --- Temperature Input Processing ---
-    let tempMin = -Infinity,
-      tempMax = Infinity;
+    // Process temperature input
+    let tempMin = -Infinity, tempMax = Infinity;
     if (temperatureInput.includes("-")) {
       const parts = temperatureInput.split("-");
       tempMin = parseFloat(parts[0].trim());
@@ -169,49 +86,217 @@ const destinations = [
       tempMin = tempValue - 5;
       tempMax = tempValue + 5;
     }
+    
+  // Updated and expanded destination data with latitude and longitude
+  const destinations = [
+  // California & Nearby (short distance)
+  { name: "San Francisco, CA", latitude: 37.7749, longitude: -122.4194, averageTemp: 65 },
+  { name: "Sacramento, CA", latitude: 38.5816, longitude: -121.4944, averageTemp: 68 },
+  { name: "Los Angeles, CA", latitude: 34.0522, longitude: -118.2437, averageTemp: 75 },
+  { name: "San Diego, CA", latitude: 32.7157, longitude: -117.1611, averageTemp: 70 },
+  { name: "Lake Tahoe, CA/NV", latitude: 39.0968, longitude: -120.0324, averageTemp: 45 },
+  { name: "Reno, NV", latitude: 39.5296, longitude: -119.8138, averageTemp: 50 },
+  { name: "Yosemite National Park, CA", latitude: 37.8651, longitude: -119.5383, averageTemp: 50 },
+  { name: "Santa Barbara, CA", latitude: 34.4208, longitude: -119.6982, averageTemp: 65 },
 
-    // --- Filtering Locations Based on Criteria ---
-    const filtered = destinations.filter((dest) => {
-      return (
-        dest.distanceMiles <= maxDistance &&
-        dest.averageTemp >= tempMin &&
-        dest.averageTemp <= tempMax
-      );
+  // Popular Hiking Destinations
+  { name: "Zion National Park, UT", latitude: 37.2982, longitude: -113.0263, averageTemp: 60 },
+  { name: "Grand Canyon, AZ", latitude: 36.1070, longitude: -112.1130, averageTemp: 50 },
+  { name: "Banff National Park, Canada", latitude: 51.1784, longitude: -115.5708, averageTemp: 45 },
+  { name: "Torres del Paine, Chile", latitude: -51.2538, longitude: -72.2432, averageTemp: 40 },
+  { name: "Patagonia, Argentina", latitude: -38.4161, longitude: -71.8333, averageTemp: 50 },
+  { name: "Mount Kilimanjaro, Tanzania", latitude: -3.0674, longitude: 37.3556, averageTemp: 45 },
+
+  // Beach & Ocean Activities
+  { name: "Maui, HI", latitude: 20.7984, longitude: -156.3319, averageTemp: 80 },
+  { name: "Phuket, Thailand", latitude: 7.8804, longitude: 98.3923, averageTemp: 85 },
+  { name: "Bora Bora, French Polynesia", latitude: -16.5004, longitude: -151.7415, averageTemp: 80 },
+  { name: "Maldives, South Asia", latitude: 3.2028, longitude: 73.2207, averageTemp: 85 },
+  { name: "Gold Coast, Australia", latitude: -28.0167, longitude: 153.4000, averageTemp: 75 },
+  { name: "Seychelles, Africa", latitude: -4.6796, longitude: 55.4920, averageTemp: 85 },
+
+  // Resort Destinations
+  { name: "Malibu, CA", latitude: 34.0259, longitude: -118.7798, averageTemp: 70 },
+  { name: "Palm Springs, CA", latitude: 33.8303, longitude: -116.5453, averageTemp: 80 },
+  { name: "Whistler, Canada", latitude: 50.1163, longitude: -122.9574, averageTemp: 25 },
+  { name: "Cabo San Lucas, Mexico", latitude: 22.8905, longitude: -109.9167, averageTemp: 80 },
+  { name: "Montego Bay, Jamaica", latitude: 18.4762, longitude: -77.8939, averageTemp: 85 },
+  { name: "Gstaad, Switzerland", latitude: 46.4712, longitude: 7.2866, averageTemp: 45 },
+
+  // Scenic Destinations
+  { name: "Santorini, Greece", latitude: 36.3932, longitude: 25.4615, averageTemp: 75 },
+  { name: "Amalfi Coast, Italy", latitude: 40.6333, longitude: 14.6027, averageTemp: 70 },
+  { name: "Cinque Terre, Italy", latitude: 44.1272, longitude: 9.7389, averageTemp: 70 },
+  { name: "Big Sur, CA", latitude: 36.2704, longitude: -121.8081, averageTemp: 60 },
+  { name: "Iceland's Golden Circle", latitude: 64.9631, longitude: -19.0208, averageTemp: 35 },
+  { name: "Plitvice Lakes, Croatia", latitude: 44.8801, longitude: 15.6166, averageTemp: 60 },
+  { name: "Geirangerfjord, Norway", latitude: 62.1008, longitude: 7.2059, averageTemp: 40 },
+  { name: "Milford Sound, New Zealand", latitude: -44.6704, longitude: 167.9279, averageTemp: 55 },
+
+  // Popular Tourist & Major Cities
+  { name: "Las Vegas, NV", latitude: 36.1699, longitude: -115.1398, averageTemp: 85 },
+  { name: "Phoenix, AZ", latitude: 33.4484, longitude: -112.0740, averageTemp: 90 },
+  { name: "Denver, CO", latitude: 39.7392, longitude: -104.9903, averageTemp: 55 },
+  { name: "Salt Lake City, UT", latitude: 40.7608, longitude: -111.8910, averageTemp: 50 },
+  { name: "Seattle, WA", latitude: 47.6062, longitude: -122.3321, averageTemp: 55 },
+  { name: "Portland, OR", latitude: 45.5051, longitude: -122.6750, averageTemp: 60 },
+  { name: "Chicago, IL", latitude: 41.8781, longitude: -87.6298, averageTemp: 50 },
+  { name: "Boston, MA", latitude: 42.3601, longitude: -71.0589, averageTemp: 45 },
+  { name: "New York City, NY", latitude: 40.7128, longitude: -74.0060, averageTemp: 55 },
+  { name: "Washington, DC", latitude: 38.9072, longitude: -77.0369, averageTemp: 60 },
+  { name: "Nashville, TN", latitude: 36.1627, longitude: -86.7816, averageTemp: 70 },
+  { name: "Miami, FL", latitude: 25.7617, longitude: -80.1918, averageTemp: 80 },
+  { name: "Orlando, FL", latitude: 28.5383, longitude: -81.3792, averageTemp: 75 },
+  { name: "Honolulu, HI", latitude: 21.3069, longitude: -157.8583, averageTemp: 80 },
+  { name: "Austin, TX", latitude: 30.2672, longitude: -97.7431, averageTemp: 70 },
+  { name: "New Orleans, LA", latitude: 29.9511, longitude: -90.0715, averageTemp: 75 },
+
+  // US Winter/Cold Destinations
+  { name: "Anchorage, AK", latitude: 61.2181, longitude: -149.9003, averageTemp: 30 },
+  { name: "Vermont, USA", latitude: 44.5588, longitude: -72.5778, averageTemp: 25 },
+  { name: "Lake Placid, NY", latitude: 44.2795, longitude: -73.9799, averageTemp: 28 },
+  { name: "Jackson Hole, WY", latitude: 43.4799, longitude: -110.7624, averageTemp: 20 },
+
+  // International Destinations
+  { name: "London, UK", latitude: 51.5074, longitude: -0.1278, averageTemp: 55 },
+  { name: "Paris, France", latitude: 48.8566, longitude: 2.3522, averageTemp: 60 },
+  { name: "Amsterdam, Netherlands", latitude: 52.3676, longitude: 4.9041, averageTemp: 55 },
+  { name: "Tokyo, Japan", latitude: 35.6895, longitude: 139.6917, averageTemp: 65 },
+  { name: "Sydney, Australia", latitude: -33.8688, longitude: 151.2093, averageTemp: 75 },
+  { name: "Rio de Janeiro, Brazil", latitude: -22.9068, longitude: -43.1729, averageTemp: 80 },
+  { name: "Dubai, UAE", latitude: 25.276987, longitude: 55.296249, averageTemp: 95 },
+  { name: "Cape Town, South Africa", latitude: -33.9249, longitude: 18.4241, averageTemp: 70 },
+  { name: "Moscow, Russia", latitude: 55.7558, longitude: 37.6173, averageTemp: 30 },
+  { name: "Reykjavik, Iceland", latitude: 64.1466, longitude: -21.9426, averageTemp: 35 },
+  { name: "Zurich, Switzerland", latitude: 47.3769, longitude: 8.5417, averageTemp: 45 },
+  { name: "Munich, Germany", latitude: 48.1351, longitude: 11.5820, averageTemp: 50 },
+  { name: "Rome, Italy", latitude: 41.9028, longitude: 12.4964, averageTemp: 65 },
+  { name: "Barcelona, Spain", latitude: 41.3851, longitude: 2.1734, averageTemp: 70 },
+  { name: "Mexico City, Mexico", latitude: 19.4326, longitude: -99.1332, averageTemp: 70 },
+  { name: "Cancun, Mexico", latitude: 21.1619, longitude: -86.8515, averageTemp: 80 },
+  { name: "San Juan, Puerto Rico", latitude: 18.4655, longitude: -66.1057, averageTemp: 85 },
+  { name: "Kyoto, Japan", latitude: 35.0116, longitude: 135.7681, averageTemp: 60 },
+  { name: "Bangkok, Thailand", latitude: 13.7563, longitude: 100.5018, averageTemp: 90 },
+  { name: "Bali, Indonesia", latitude: -8.3405, longitude: 115.0920, averageTemp: 85 },
+  { name: "Istanbul, Turkey", latitude: 41.0082, longitude: 28.9784, averageTemp: 60 },
+  { name: "Prague, Czech Republic", latitude: 50.0755, longitude: 14.4378, averageTemp: 50 },
+  { name: "Havana, Cuba", latitude: 23.1136, longitude: -82.3666, averageTemp: 80 },
+  { name: "Toronto, Canada", latitude: 43.651070, longitude: -79.347015, averageTemp: 45 },
+  { name: "Buenos Aires, Argentina", latitude: -34.6037, longitude: -58.3816, averageTemp: 65 },
+  { name: "Dublin, Ireland", latitude: 53.3498, longitude: -6.2603, averageTemp: 50 },
+  { name: "Victoria Falls, Zimbabwe", latitude: -17.9243, longitude: 25.8560, averageTemp: 75 },
+  { name: "Queenstown, New Zealand", latitude: -45.0312, longitude: 168.6626, averageTemp: 55 },
+  { name: "Galapagos Islands, Ecuador", latitude: -0.9538, longitude: -90.9656, averageTemp: 75 },
+
+  // Newly added destinations from various regions
+  { name: "Rotterdam, Netherlands", latitude: 51.9225, longitude: 4.47917, averageTemp: 56 },
+  { name: "The Hague, Netherlands", latitude: 52.0705, longitude: 4.3007, averageTemp: 55 },
+  { name: "Berlin, Germany", latitude: 52.5200, longitude: 13.4050, averageTemp: 51 },
+  { name: "Frankfurt, Germany", latitude: 50.1109, longitude: 8.6821, averageTemp: 53 },
+  { name: "Hamburg, Germany", latitude: 53.5511, longitude: 9.9937, averageTemp: 48 },
+  { name: "Cologne, Germany", latitude: 50.9375, longitude: 6.9603, averageTemp: 52 },
+  { name: "Geneva, Switzerland", latitude: 46.2044, longitude: 6.1432, averageTemp: 47 },
+  { name: "Interlaken, Switzerland", latitude: 46.6863, longitude: 7.8632, averageTemp: 50 },
+  { name: "Zermatt, Switzerland", latitude: 46.0207, longitude: 7.7491, averageTemp: 35 },
+  { name: "Lucerne, Switzerland", latitude: 47.0502, longitude: 8.3093, averageTemp: 49 },
+  { name: "Marseille, France", latitude: 43.2965, longitude: 5.3698, averageTemp: 65 },
+  { name: "Nice, France", latitude: 43.7102, longitude: 7.2620, averageTemp: 68 },
+  { name: "Lyon, France", latitude: 45.7640, longitude: 4.8357, averageTemp: 58 },
+  { name: "Edinburgh, UK", latitude: 55.9533, longitude: -3.1883, averageTemp: 50 },
+  { name: "Manchester, UK", latitude: 53.4808, longitude: -2.2426, averageTemp: 52 },
+  { name: "Vienna, Austria", latitude: 48.2082, longitude: 16.3738, averageTemp: 54 },
+  { name: "Prague, Czech Republic", latitude: 50.0755, longitude: 14.4378, averageTemp: 50 },
+  { name: "Budapest, Hungary", latitude: 47.4979, longitude: 19.0402, averageTemp: 55 },
+  { name: "Florence, Italy", latitude: 43.7696, longitude: 11.2558, averageTemp: 63 },
+  { name: "Athens, Greece", latitude: 37.9838, longitude: 23.7275, averageTemp: 68 },
+  { name: "Valencia, Spain", latitude: 39.4699, longitude: -0.3763, averageTemp: 66 },
+  { name: "Seville, Spain", latitude: 37.3886, longitude: -5.9823, averageTemp: 75 },
+  { name: "Stockholm, Sweden", latitude: 59.3293, longitude: 18.0686, averageTemp: 45 },
+  { name: "Oslo, Norway", latitude: 59.9139, longitude: 10.7522, averageTemp: 48 },
+  { name: "Helsinki, Finland", latitude: 60.1695, longitude: 24.9354, averageTemp: 47 },
+  { name: "Warsaw, Poland", latitude: 52.2297, longitude: 21.0122, averageTemp: 52 },
+  { name: "Krakow, Poland", latitude: 50.0647, longitude: 19.9450, averageTemp: 53 },
+  { name: "Beijing, China", latitude: 39.9042, longitude: 116.4074, averageTemp: 55 },
+  { name: "Hanoi, Vietnam", latitude: 21.0285, longitude: 105.8542, averageTemp: 75 },
+  { name: "Seoul, South Korea", latitude: 37.5665, longitude: 126.9780, averageTemp: 60 },
+  { name: "Osaka, Japan", latitude: 34.6937, longitude: 135.5023, averageTemp: 70 },
+  { name: "Melbourne, Australia", latitude: -37.8136, longitude: 144.9631, averageTemp: 65 },
+  { name: "Perth, Australia", latitude: -31.9505, longitude: 115.8605, averageTemp: 70 },
+  { name: "Cusco, Peru", latitude: -13.5319, longitude: -71.9675, averageTemp: 58 },
+  { name: "Santiago, Chile", latitude: -33.4489, longitude: -70.6693, averageTemp: 60 },
+  { name: "Marrakech, Morocco", latitude: 31.6295, longitude: -7.9811, averageTemp: 75 },
+
+  // India
+  { name: "Delhi, India", latitude: 28.6139, longitude: 77.2090, averageTemp: 77 },
+  { name: "Mumbai, India", latitude: 19.0760, longitude: 72.8777, averageTemp: 82 },
+  { name: "Jaipur, India", latitude: 26.9124, longitude: 75.7873, averageTemp: 78 },
+  { name: "Varanasi, India", latitude: 25.3176, longitude: 82.9739, averageTemp: 79 },
+  { name: "Goa, India", latitude: 15.2993, longitude: 74.1240, averageTemp: 85 },
+
+  // Egypt
+  { name: "Cairo, Egypt", latitude: 30.0444, longitude: 31.2357, averageTemp: 80 },
+  { name: "Luxor, Egypt", latitude: 25.6872, longitude: 32.6396, averageTemp: 85 },
+  { name: "Giza, Egypt", latitude: 30.0131, longitude: 31.2089, averageTemp: 79 },
+  { name: "Sharm El Sheikh, Egypt", latitude: 27.9158, longitude: 34.3299, averageTemp: 90 },
+
+  // More unique places
+  { name: "Petra, Jordan", latitude: 30.3285, longitude: 35.4444, averageTemp: 75 },
+  { name: "Machu Picchu, Peru", latitude: -13.1631, longitude: -72.5450, averageTemp: 57 },
+  { name: "Banff, Canada", latitude: 51.1784, longitude: -115.5708, averageTemp: 40 },
+  { name: "Banff National Park, Canada", latitude: 51.1784, longitude: -115.5708, averageTemp: 45 },
+  { name: "Kasuga-taisha, Nara, Japan", latitude: 34.683, longitude: 135.849, averageTemp: 60 },
+];
+
+    // Filter destinations based on calculated distance and temperature
+    const filtered = destinations.filter(dest => {
+      const distanceToDest = calculateDistance(userCoords.lat, userCoords.lng, dest.latitude, dest.longitude);
+      return distanceToDest <= maxDistance &&
+             dest.averageTemp >= tempMin &&
+             dest.averageTemp <= tempMax;
     });
 
-    // --- Display Results ---
-    resultsDiv.innerHTML =
-      "<p>Searching destinations from: <strong>" +
-      startLocation +
-      "</strong></p>" +
-      "<p><strong>Travel Range:</strong> " +
-      distanceInput +
-      "</p>" +
-      "<p><strong>Preferred Temperature:</strong> " +
-      (temperatureInput ? temperatureInput + " °F" : "Any") +
-      "</p>";
+    // Display results (fade in effect can be applied as desired)
+    resultsDiv.innerHTML = `
+      <p>Searching destinations from: <strong>${startLocation}</strong></p>
+      <p><strong>Travel Range:</strong> ${distanceInput}</p>
+      <p><strong>Preferred Temperature:</strong> ${temperatureInput ? temperatureInput + " °F" : "Any"}</p>
+    `;
     if (filtered.length === 0) {
-      resultsDiv.innerHTML +=
-        "<p>No destinations found matching your criteria.</p>";
+      resultsDiv.innerHTML += "<p>No destinations found matching your criteria.</p>";
     } else {
-      resultsDiv.innerHTML +=
-        "<p>Found " + filtered.length + " destinations:</p>";
+      resultsDiv.innerHTML += `<p>Found ${filtered.length} destinations:</p>`;
       const list = document.createElement("ul");
-      filtered.forEach((dest) => {
+      filtered.forEach(dest => {
         const li = document.createElement("li");
-        li.textContent =
-          dest.name +
-          " - " +
-          dest.distanceMiles +
-          " miles, Avg Temp: " +
-          dest.averageTemp +
-          "°F";
+        const distanceToDest = calculateDistance(userCoords.lat, userCoords.lng, dest.latitude, dest.longitude).toFixed(1);
+        li.textContent = `${dest.name} - ${distanceToDest} miles away, Avg Temp: ${dest.averageTemp}°F`;
         list.appendChild(li);
       });
       resultsDiv.appendChild(list);
     }
+
+    // Fade-in effect
+    resultsDiv.style.opacity = "0";
+    resultsDiv.style.transition = "opacity 1s ease-in-out";
+    setTimeout(() => {
+      resultsDiv.style.opacity = "1";
+    }, 50);
   });
 }
+
+// Haversine formula function (in miles)
+function calculateDistance(lat1, lon1, lat2, lon2) {
+  const R = 3958.8; // Earth's radius in miles
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) ** 2 +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+
 
 
   // --- Smooth Scroll Function ---
@@ -408,5 +493,114 @@ contentPanels.forEach((panel, index) => {
     setTimeout(() => {
       panel.style.opacity = "1";
     }, 50);
-  }, 666 + index * 350);
+  }, 666 + index * 450);
 });
+
+// Map US state names to their abbreviations
+const stateAbbreviations = {
+  "alabama": "al", "alaska": "ak", "arizona": "az", "arkansas": "ar", "california": "ca",
+  "colorado": "co", "connecticut": "ct", "delaware": "de", "florida": "fl", "georgia": "ga",
+  "hawaii": "hi", "idaho": "id", "illinois": "il", "indiana": "in", "iowa": "ia",
+  "kansas": "ks", "kentucky": "ky", "louisiana": "la", "maine": "me", "maryland": "md",
+  "massachusetts": "ma", "michigan": "mi", "minnesota": "mn", "mississippi": "ms",
+  "missouri": "mo", "montana": "mt", "nebraska": "ne", "nevada": "nv", "new hampshire": "nh",
+  "new jersey": "nj", "new mexico": "nm", "new york": "ny", "north carolina": "nc",
+  "north dakota": "nd", "ohio": "oh", "oklahoma": "ok", "oregon": "or", "pennsylvania": "pa",
+  "rhode island": "ri", "south carolina": "sc", "south dakota": "sd", "tennessee": "tn",
+  "texas": "tx", "utah": "ut", "vermont": "vt", "virginia": "va", "washington": "wa",
+  "west virginia": "wv", "wisconsin": "wi", "wyoming": "wy"
+};
+
+async function updateMeetupLink() {
+  const meetupLink = document.getElementById("meetupLink");
+
+  try {
+    const response = await fetch("https://ipapi.co/json/");
+    const data = await response.json();
+    console.log("Geolocation data:", data);
+
+    let link = "";
+    const countryCode = data.country_code.toLowerCase();
+
+    if (countryCode === "us") {
+      // For US users
+      const region = data.region.toLowerCase();
+      const stateAbbr = stateAbbreviations[region] || region.replace(/\s+/g, '-');
+      const city = data.city.toLowerCase().replace(/\s+/g, '-');
+      link = `https://www.meetup.com/find/us--${stateAbbr}--${city}/hiking/`;
+    } else {
+      // For non-US users
+      const city = data.city.toLowerCase().replace(/\s+/g, '-');
+      link = `https://www.meetup.com/find/${countryCode}--${city}/hiking/`;
+    }
+
+    if (meetupLink) {
+      meetupLink.href = link;
+      console.log("Meetup URL set to:", link);
+    }
+  } catch (error) {
+    console.error("Error fetching geolocation:", error);
+    // Provide a default fallback URL if geolocation fails
+    if (meetupLink) {
+      meetupLink.href = "https://www.meetup.com/find/";
+    }
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  updateMeetupLink();
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  fetch("https://ipapi.co/json/")
+    .then(response => response.json())
+    .then(data => {
+      console.log("Geolocation data:", data); // Check response in the console
+      const city = data.city || "";
+      const region = data.region || "";
+      // Use region_code if available, for a two-letter abbreviation
+      const regionAbbr = data.region_code || region;
+      
+      // Construct location string: for US, use abbreviation; otherwise use full region name
+      const locationStr = (city && regionAbbr) 
+        ? `${city}, ${regionAbbr}` 
+        : (city ? city : "Your City");
+      
+      const startLocationInput = document.getElementById("start-location");
+      if (startLocationInput) {
+        startLocationInput.placeholder = locationStr;
+      }
+    })
+    .catch(error => {
+      console.error("Error fetching geolocation:", error);
+    });
+});
+
+document.getElementById('sendButton').addEventListener('click', function() {
+  const chatInput = document.getElementById('chatInput');
+  const chatbox = document.getElementById('chatbox');
+
+  const message = chatInput.value.trim();
+  if (message !== '') {
+    // Get the logged-in username from localStorage
+    const username = localStorage.getItem('username') || "Guest";
+
+    // Remove placeholder text on first message
+    const placeholder = chatbox.querySelector('.chat-placeholder');
+    if (placeholder) {
+      chatbox.removeChild(placeholder);
+    }
+
+    // Create and add user message
+    const userMessage = document.createElement('p');
+    userMessage.textContent = `${username}: ${message}`;
+    userMessage.style.color = '#64ffda';
+    chatbox.appendChild(userMessage);
+
+    // Clear input field
+    chatInput.value = '';
+    chatbox.scrollTop = chatbox.scrollHeight;
+  }
+});
+
