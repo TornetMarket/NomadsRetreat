@@ -397,3 +397,16 @@ const destinations = [
     });
   }
 });
+
+// Fade in the Local Meet Ups Panel
+const contentPanels = document.querySelectorAll(".content-panel");
+contentPanels.forEach((panel, index) => {
+  setTimeout(() => {
+    panel.style.display = "block";
+    console.log("Scrolling to content panel", index);
+    panel.scrollIntoView({ behavior: "smooth", block: "start" });
+    setTimeout(() => {
+      panel.style.opacity = "1";
+    }, 50);
+  }, 666 + index * 350);
+});
