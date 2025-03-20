@@ -88,7 +88,7 @@ if (filterBtn) {
     }
     
   // Updated and expanded destination data with latitude and longitude
-  const destinations = [
+const destinations = [
   // California & Nearby (short distance)
   { name: "San Francisco, CA", latitude: 37.7749, longitude: -122.4194, averageTemp: 65 },
   { name: "Sacramento, CA", latitude: 38.5816, longitude: -121.4944, averageTemp: 68 },
@@ -188,43 +188,44 @@ if (filterBtn) {
   { name: "Queenstown, New Zealand", latitude: -45.0312, longitude: 168.6626, averageTemp: 55 },
   { name: "Galapagos Islands, Ecuador", latitude: -0.9538, longitude: -90.9656, averageTemp: 75 },
 
-  // Newly added destinations from various regions
-  { name: "Rotterdam, Netherlands", latitude: 51.9225, longitude: 4.47917, averageTemp: 56 },
-  { name: "The Hague, Netherlands", latitude: 52.0705, longitude: 4.3007, averageTemp: 55 },
-  { name: "Berlin, Germany", latitude: 52.5200, longitude: 13.4050, averageTemp: 51 },
-  { name: "Frankfurt, Germany", latitude: 50.1109, longitude: 8.6821, averageTemp: 53 },
-  { name: "Hamburg, Germany", latitude: 53.5511, longitude: 9.9937, averageTemp: 48 },
-  { name: "Cologne, Germany", latitude: 50.9375, longitude: 6.9603, averageTemp: 52 },
-  { name: "Geneva, Switzerland", latitude: 46.2044, longitude: 6.1432, averageTemp: 47 },
-  { name: "Interlaken, Switzerland", latitude: 46.6863, longitude: 7.8632, averageTemp: 50 },
-  { name: "Zermatt, Switzerland", latitude: 46.0207, longitude: 7.7491, averageTemp: 35 },
-  { name: "Lucerne, Switzerland", latitude: 47.0502, longitude: 8.3093, averageTemp: 49 },
-  { name: "Marseille, France", latitude: 43.2965, longitude: 5.3698, averageTemp: 65 },
-  { name: "Nice, France", latitude: 43.7102, longitude: 7.2620, averageTemp: 68 },
-  { name: "Lyon, France", latitude: 45.7640, longitude: 4.8357, averageTemp: 58 },
-  { name: "Edinburgh, UK", latitude: 55.9533, longitude: -3.1883, averageTemp: 50 },
-  { name: "Manchester, UK", latitude: 53.4808, longitude: -2.2426, averageTemp: 52 },
-  { name: "Vienna, Austria", latitude: 48.2082, longitude: 16.3738, averageTemp: 54 },
-  { name: "Prague, Czech Republic", latitude: 50.0755, longitude: 14.4378, averageTemp: 50 },
-  { name: "Budapest, Hungary", latitude: 47.4979, longitude: 19.0402, averageTemp: 55 },
-  { name: "Florence, Italy", latitude: 43.7696, longitude: 11.2558, averageTemp: 63 },
-  { name: "Athens, Greece", latitude: 37.9838, longitude: 23.7275, averageTemp: 68 },
-  { name: "Valencia, Spain", latitude: 39.4699, longitude: -0.3763, averageTemp: 66 },
-  { name: "Seville, Spain", latitude: 37.3886, longitude: -5.9823, averageTemp: 75 },
-  { name: "Stockholm, Sweden", latitude: 59.3293, longitude: 18.0686, averageTemp: 45 },
-  { name: "Oslo, Norway", latitude: 59.9139, longitude: 10.7522, averageTemp: 48 },
-  { name: "Helsinki, Finland", latitude: 60.1695, longitude: 24.9354, averageTemp: 47 },
-  { name: "Warsaw, Poland", latitude: 52.2297, longitude: 21.0122, averageTemp: 52 },
-  { name: "Krakow, Poland", latitude: 50.0647, longitude: 19.9450, averageTemp: 53 },
-  { name: "Beijing, China", latitude: 39.9042, longitude: 116.4074, averageTemp: 55 },
-  { name: "Hanoi, Vietnam", latitude: 21.0285, longitude: 105.8542, averageTemp: 75 },
-  { name: "Seoul, South Korea", latitude: 37.5665, longitude: 126.9780, averageTemp: 60 },
-  { name: "Osaka, Japan", latitude: 34.6937, longitude: 135.5023, averageTemp: 70 },
-  { name: "Melbourne, Australia", latitude: -37.8136, longitude: 144.9631, averageTemp: 65 },
-  { name: "Perth, Australia", latitude: -31.9505, longitude: 115.8605, averageTemp: 70 },
-  { name: "Cusco, Peru", latitude: -13.5319, longitude: -71.9675, averageTemp: 58 },
-  { name: "Santiago, Chile", latitude: -33.4489, longitude: -70.6693, averageTemp: 60 },
-  { name: "Marrakech, Morocco", latitude: 31.6295, longitude: -7.9811, averageTemp: 75 },
+  // Snowy Destinations
+  { name: "Chamonix, France", latitude: 45.9237, longitude: 6.8694, averageTemp: 28 },
+  { name: "Aspen, CO, USA", latitude: 39.1911, longitude: -106.8175, averageTemp: 25 },
+  { name: "Sapporo, Japan", latitude: 43.0618, longitude: 141.3545, averageTemp: 30 },
+  { name: "Rovaniemi, Finland", latitude: 66.5039, longitude: 25.7294, averageTemp: 20 },
+  { name: "St. Moritz, Switzerland", latitude: 46.4977, longitude: 9.8374, averageTemp: 32 },
+
+  // Hot Destinations
+  { name: "Death Valley, CA, USA", latitude: 36.5323, longitude: -116.9325, averageTemp: 101 },
+  { name: "Kuwait City, Kuwait", latitude: 29.3759, longitude: 47.9774, averageTemp: 94 },
+  { name: "Doha, Qatar", latitude: 25.2760, longitude: 51.5200, averageTemp: 90 },
+  { name: "Riyadh, Saudi Arabia", latitude: 24.7136, longitude: 46.6753, averageTemp: 95 },
+
+  // Cold Destinations
+  { name: "Nuuk, Greenland", latitude: 64.1835, longitude: -51.7216, averageTemp: 20 },
+  { name: "Barrow, AK, USA", latitude: 71.2906, longitude: -156.7886, averageTemp: 10 },
+  { name: "Yakutsk, Russia", latitude: 62.0355, longitude: 129.6755, averageTemp: 5 },
+  { name: "Oymyakon, Russia", latitude: 63.4641, longitude: 142.7737, averageTemp: -15 },
+
+  // Scuba Diving Destinations
+  { name: "Great Barrier Reef, Australia", latitude: -18.2871, longitude: 147.6992, averageTemp: 75 },
+  { name: "Belize Barrier Reef, Belize", latitude: 17.3616, longitude: -87.9094, averageTemp: 80 },
+  { name: "Coron, Philippines", latitude: 11.8789, longitude: 120.2633, averageTemp: 85 },
+  { name: "Raja Ampat, Indonesia", latitude: -0.2349, longitude: 130.5243, averageTemp: 84 },
+
+  // Economically Diverse Destinations
+  { name: "Zurich, Switzerland", latitude: 47.3769, longitude: 8.5417, averageTemp: 45 },
+  { name: "Monaco", latitude: 43.7384, longitude: 7.4246, averageTemp: 60 },
+  { name: "Lagos, Nigeria", latitude: 6.5244, longitude: 3.3792, averageTemp: 85 },
+  { name: "Dhaka, Bangladesh", latitude: 23.8103, longitude: 90.4125, averageTemp: 85 },
+  { name: "Manila, Philippines", latitude: 14.5995, longitude: 120.9842, averageTemp: 82 },
+
+  // More unique places
+  { name: "Athabasca Glacier, Canada", latitude: 52.1833, longitude: -117.2856, averageTemp: 20 },
+  { name: "Timbuktu, Mali", latitude: 16.7666, longitude: -3.0026, averageTemp: 85 },
+  { name: "Ushuaia, Argentina", latitude: -54.8019, longitude: -68.3030, averageTemp: 45 },
+  { name: "Fiji Islands", latitude: -17.7134, longitude: 178.0650, averageTemp: 78 },
+  { name: "Antarctica", latitude: -82.8628, longitude: 135.0000, averageTemp: -50 },
 
   // India
   { name: "Delhi, India", latitude: 28.6139, longitude: 77.2090, averageTemp: 77 },
@@ -239,11 +240,10 @@ if (filterBtn) {
   { name: "Giza, Egypt", latitude: 30.0131, longitude: 31.2089, averageTemp: 79 },
   { name: "Sharm El Sheikh, Egypt", latitude: 27.9158, longitude: 34.3299, averageTemp: 90 },
 
-  // More unique places
+  // Even more unique locations
   { name: "Petra, Jordan", latitude: 30.3285, longitude: 35.4444, averageTemp: 75 },
   { name: "Machu Picchu, Peru", latitude: -13.1631, longitude: -72.5450, averageTemp: 57 },
-  { name: "Banff, Canada", latitude: 51.1784, longitude: -115.5708, averageTemp: 40 },
-  { name: "Banff National Park, Canada", latitude: 51.1784, longitude: -115.5708, averageTemp: 45 },
+  { name: "Bangkok, Thailand", latitude: 13.7563, longitude: 100.5018, averageTemp: 90 },
   { name: "Kasuga-taisha, Nara, Japan", latitude: 34.683, longitude: 135.849, averageTemp: 60 },
 ];
 
