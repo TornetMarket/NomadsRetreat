@@ -673,3 +673,10 @@ img {
   border-radius: 10px; /* Optional: Gives a rounded look */
 }
 
+/* Additional CSS for Connect Page */
+    /* Ensure that the h1 in the Local Meet Ups panel is blue */
+    .panel-title {
+      color: #3498db; /* Blue color for Local Meet Ups */
+      margin-bottom: 1rem;
+    }
+
